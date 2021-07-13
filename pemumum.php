@@ -20,6 +20,8 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="assets/js/hover.zoom.js"></script>
     <script src="assets/js/hover.zoom.conf.js"></script>
+    <link rel="stylesheet" href="admin/datatables/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="admin/datatables/css/jquery.dataTables.css">
     <?php
     	include "koneksi.php";
     ?>
@@ -61,56 +63,93 @@
 	<!-- +++++ Welcome Section +++++ -->
 	<div id="ww">
 	    <div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-lg-offset-3 centered">
-					<h4>Pemenang Pemilihan Pelanggan</h4>
-					<hr>
+      <div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+				
+					<div class="row mt">
+				<form action="" method="POST">
+						<div class="col-lg-8 col-lg-offset-2">
+							<form role="form">
+						<div class="form-group">
+							<select class="form-control" id="exampleInputEmail1" name="pilih">
+							<option value = ""> -- Pilih Periode -- </option>
+									<?php
+											include "koneksi.php";
+											$sql = "select tahun_periode from periode_pemenang GROUP BY tahun_periode";
+											$query = mysqli_query($koneksi,$sql);
+											while($row = mysqli_fetch_array($query)){
+											echo "<option value = '$row[tahun_periode]'>$row[tahun_periode]</option>";
+											}
+									?>
+							</select>
+				  </div>
+				  <input type="submit" name="submit" class="btn btn-primary" value="Pilih">
+				</form>    			
+			</div>
+			</form>
+		</div><!-- /row -->
+	
+						
+						
+					</div>
 				</div>
+			</div>
+</div>
 
-
-          <table class="table table-striped table-bordered data">
+<?php
+	if(isset($_POST['submit'])){
+		?>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Periode <?php $nm=$_POST['pilih']; echo "".$nm;  ?></div>
+					<div class="panel-body">
+					<table class="table table-striped table-bordered data">
 						    <thead>
 						    <tr>
-						        <th>Ranking</th>
+                <th>Ranking</th>
 								<th>No Pelanggan</th>
 								<th>Nama</th>
 								<th>Alamat Email</th>
 								<th>Total Score</th>
-								<th>Action </th>
-								
-
-								<!-- <th>Aksi</th> -->
 						    </tr>
 						    </thead>
 						    <tbody>
 						    <?php
-						    include "koneksi.php";
-							$sql = mysqli_query($koneksi,"select * from pelanggan order by vektor_v desc limit 10");
-							$i = 0;
-							while ($row = mysqli_fetch_array($sql)){
-								$i++;
-								
+							include "koneksi.php";
+							$no=0;
+							$nama=$_POST['pilih'];
+              
+							$query = "select * from pelanggan 
+              JOIN periode_pemenang ON pelanggan.no_pel = periode_pemenang.no_pel
+              where tahun_periode='$nama' order by vektor_v desc limit 10";
+							$hasil = mysqli_query($koneksi,$query) or die("");
+							while ($data = mysqli_fetch_array($hasil)) {
+								$no++;
 							?>
 							<tr>
-								<td><?php echo "".$i; ?></td>
-								<td><?php echo $row['no_pel']; ?></td>
-								<td><?php echo $row['nama']; ?></td>
-								<td><?php echo $row['email']; ?></td>
-								<td><?php echo $row['vektor_v']; ?></td>
-								<td>
-				<a class="edit" href="sendmail.php?id=<?php echo $row['no_pel']; ?>" target="_blank">Kirim Email</a></td>
-<!-- 
-								<td><button class="btn btn-info btn-sm" id="btn-todo">Edit</button> 
-									<button class="btn btn-warning btn-sm" id="btn-todo">Hapus</button></td> -->
+              <td><?php echo "".$no; ?></td>
+								<td><?php echo $data['no_pel']; ?></td>
+								<td><?php echo $data['nama']; ?></td>
+								<td><?php echo $data['email']; ?></td>
+								<td><?php echo $data['vektor_v']; ?></td>
 							<?php
 							}
 							
+			
 							?>
-
 							</tr>
 							</tbody>
 						</table>
 					</div>
+				</div>
+			</div>
+</div>
+<?php
+	}
+?>
 				</div>	
 
 	</div><!-- /ww -->
@@ -123,5 +162,41 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="assets/js/bootstrap.min.js"></script>
+    <script src="admin/js/index.js"></script>
+<script src="admin/datatables/js/jquery.dataTables.min.js"></script>
+<script src="admin/datatables/js/dataTables.bootstrap4.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.data').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Semua"]],
+        "language":{
+          "order": [[ 1, "desc" ]],
+          "decimal":        "",
+          "emptyTable":     "Tidak ada data pada tabel ini",
+          "info":           "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+          "infoEmpty":      "Menampilkan 0 hingga 0 dari 0 data",
+          "infoFiltered":   "( Disaring dari _MAX_ total data)",
+          "infoPostFix":    "",
+          "thousands":      ",",
+          "lengthMenu":     "Tampilkan _MENU_ data",
+          "loadingRecords": "Memuat...",
+          "processing":     "Memproses...",
+          "search":         "Cari:",
+          "zeroRecords":    "Tidak ada data yang ditemukan",
+          "paginate": {
+              "first":      "Pertama",
+              "last":       "Terakhir",
+              "next":       "Selanjutnya",
+              "previous":   "Sebelumnya"
+          },
+          "aria": {
+              "sortAscending":  ": activate to sort column ascending",
+              "sortDescending": ": activate to sort column descending"
+          }
+      }
+      });
+  });
+  </script>
   </body>
 </html>
