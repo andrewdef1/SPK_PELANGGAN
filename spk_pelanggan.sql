@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2021 at 12:38 PM
+-- Generation Time: Jul 13, 2021 at 02:01 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -44,24 +44,6 @@ INSERT INTO `admin` (`id`, `nama_admin`, `user_admin`, `password_admin`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nilai_mhs`
---
-
-CREATE TABLE `nilai_mhs` (
-  `id_mhs` int(11) NOT NULL,
-  `nim` varchar(15) NOT NULL,
-  `id_dosen` int(11) NOT NULL,
-  `q1` double NOT NULL,
-  `q2` double NOT NULL,
-  `q3` double NOT NULL,
-  `q4` double NOT NULL,
-  `q5` double NOT NULL,
-  `avg` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `pelanggan`
 --
 
@@ -79,6 +61,16 @@ CREATE TABLE `pelanggan` (
   `vektor_v` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `pelanggan`
+--
+
+INSERT INTO `pelanggan` (`id_peserta_pelanggan`, `no_pel`, `nama`, `alamat`, `email`, `telp`, `c1`, `c2`, `c3`, `vektor_s`, `vektor_v`) VALUES
+(1, '1122', 'Junaidi', 'Klopkam', 'nedjuned@gmail.com', '08148516', 5, 5, 1, 2.5570104477806, 69),
+(2, '3344', 'Raga', 'Merauke', 'charga@gmail.com', '085252', 3, 5, 2, 3.0039968988016, 70),
+(3, '5566', 'Chipin', 'Tulung Agung', 'chipin@gmail.com', '086969', 4, 5, 1, 2.418271175122, 72),
+(4, '696969', 'drew', 'Ambong', 'andrewdefretes@gmail.com', '0855555', 2, 5, 1, 2.0335155622714, 79);
+
 -- --------------------------------------------------------
 
 --
@@ -91,6 +83,16 @@ CREATE TABLE `periode_pemenang` (
   `no_pel` int(69) NOT NULL,
   `tahun_periode` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `periode_pemenang`
+--
+
+INSERT INTO `periode_pemenang` (`id`, `id_peserta_pelanggan`, `no_pel`, `tahun_periode`) VALUES
+(1, 2, 3344, '2021'),
+(2, 1, 1122, '2021'),
+(3, 3, 5566, '2022'),
+(4, 4, 696969, '2021');
 
 -- --------------------------------------------------------
 
@@ -167,36 +169,6 @@ INSERT INTO `tb_pengaturan` (`id_pengaturan`, `pengaturan`, `status`) VALUES
 (2, 'penilaian', 1),
 (3, 'pengumuman', 1);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
-
-CREATE TABLE `user` (
-  `id_user` int(11) NOT NULL,
-  `jenis` varchar(30) NOT NULL,
-  `username` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL,
-  `nama` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id_user`, `jenis`, `username`, `password`, `nama`) VALUES
-(12, 'mahasiswa', 'mhs1', 'mhs1', 'Mahasiswa 1'),
-(13, 'mahasiswa', 'mhs2', 'mhs2', 'Mahasiswa 2'),
-(14, 'pimpinan', 'pmp', 'pmp', 'Pimpinan'),
-(15, 'lppm', 'lppm', 'lppm', 'LPPM'),
-(16, 'dosen', 'dsn1', 'dsn1', 'Dosen 1'),
-(17, 'dosen', 'dsn2', 'dsn2', 'Dosen 2'),
-(18, 'dosen', 'dsn3', 'dsn3', 'Dosen Nilai 1'),
-(19, 'dosen', 'dsn4', 'dsn4', 'Dosen Nilai 2'),
-(20, 'dosen', 'dsn5', 'dsn5', 'Dosen 5'),
-(21, 'dosen', 'dsn6', 'dsn6', 'Dosen 6');
-
 --
 -- Indexes for dumped tables
 --
@@ -241,12 +213,6 @@ ALTER TABLE `tb_pengaturan`
   ADD PRIMARY KEY (`id_pengaturan`);
 
 --
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id_user`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -260,13 +226,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id_peserta_pelanggan` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_peserta_pelanggan` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `periode_pemenang`
 --
 ALTER TABLE `periode_pemenang`
-  MODIFY `id` int(69) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(69) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_hmp_kriteria`
@@ -285,12 +251,6 @@ ALTER TABLE `tb_kriteria`
 --
 ALTER TABLE `tb_pengaturan`
   MODIFY `id_pengaturan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
