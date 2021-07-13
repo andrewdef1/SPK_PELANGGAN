@@ -225,6 +225,13 @@ if(!isset($_SESSION['admin'])){
 		$up_v = mysqli_query($koneksi,"update pelanggan set vektor_v = '$vk_v' where no_pel='$rps[no_pel]'");
 	}
 
+	$period = mysqli_query($koneksi,"select * from pelanggan order by vektor_v desc LIMIT 10");
+						    		
+                                    while ($data=mysqli_fetch_array($period)) {
+										$curYear = date('Y'); 
+                                        $tambah = mysqli_query($koneksi, "INSERT INTO periode_pemenang (id, id_peserta_pelanggan, no_pel, tahun_periode) VALUES ('', $data[id_peserta_pelanggan], $data[no_pel], '$curYear')");
+                                    }
+
 ?>
 <div class="row">
 			<div class="col-md-12">
@@ -254,6 +261,7 @@ if(!isset($_SESSION['admin'])){
 						    			echo "</tr>";
 						    			$rk++;
 						    		}
+									
 						    	?>
 							</tbody>
 						</table>
