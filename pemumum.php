@@ -74,7 +74,7 @@
 							<form role="form">
 						<div class="form-group">
 							<select class="form-control" id="exampleInputEmail1" name="pilih">
-							<option value = ""> -- Pilih Periode -- </option>
+							<option value = ""> -- Pilih Periode Pemenang -- </option>
 									<?php
 											include "koneksi.php";
 											$sql = "select tahun_periode from periode_pemenang GROUP BY tahun_periode";
