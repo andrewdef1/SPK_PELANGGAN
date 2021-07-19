@@ -1,7 +1,9 @@
  <!-- Page Content -->
  <?php 
+ setlocale(LC_ALL, 'id_ID.utf8'); // tergantung dengan lokalisasi yang terpasang pada sistem
 	//Load Composer's autoloader
 include('../../koneksi.php');
+include('helper.php');
 require '../../../vendor/autoload.php';
 
 //Import PHPMailer classes into the global namespace
@@ -91,8 +93,12 @@ $mail = new PHPMailer(true);
                                                 $nama = $_POST['nama'];
                                                 $email = $_POST['email'];
                                                 $telp = $_POST['telp'];
-                                                $haritt = $_POST['haritt'];
+                                                $harit = $_POST['haritt'];
                                                 $tempat = $_POST['tempat'];
+
+                                               // $tanggal = date("l, d F Y", strtotime($harit));
+                                                $haritt =  indonesian_date($harit, 'l, d F Y');
+                                               // $haritt = new DateTime($harit);
                                                 
 
 try {
@@ -118,6 +124,8 @@ try {
     //Attachments
   //  $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+   $mail->AddEmbeddedImage("bumn.png", "bumn", "bumn.png");
+   $mail->AddEmbeddedImage("telkom.png", "telkom", "telkom.png");
 
     //Content
     $mail->isHTML(true);                                //Set email format to HTML
@@ -137,9 +145,9 @@ try {
                 <td align='center' style='padding:40px 20px 30px 20px;background:whitesmoke'>
                   <table>
                       <tr>
-                  <td><img src='' alt='telkom' width='300' style='height:auto;display:block;' />
+                  <td><img alt='telkom' src='cid:telkom' width='300' style='height:auto;display:block;'>
                   </td>
-                  <td><img src='' alt='bumn' width='300' style='height:auto;display:block;' />
+                  <td><img alt='bumn' src='cid:bumn' width='300' style='height:auto;display:block;'>
                   </td>
                 </tr>
                   </table>
@@ -161,10 +169,10 @@ try {
                         <p style='font-size:20px;margin:0 0 5px 0;font-family:Arial,sans-serif;color: black;' align='center'>$email</p>
                         <p style='font-size:20px;margin:0 0 25px 0;font-family:Arial,sans-serif;color: black;' align='center'>$telp</p>
                         <p style='margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;' align='center'>Terimakasih telah menjadi pelanggan setia kami,</p>
-                        <p style='margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;'>Mohon kesediaaanya hadir dalam <strong>INDIHOME CUSTOMER GATHERING</strong>, yang akan diselenggarakan pada:</p>
+                        <p style='margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;'>Mohon kesediaanya hadir dalam <strong>INDIHOME CUSTOMER GATHERING</strong>, yang akan diselenggarakan pada:</p>
                         <table style='border: 0; padding-top: 10px;'>
                             <tr>
-                                <td>Hari</td>
+                                <td>Hari, Tanggal</td>
                                 <td>: </td>
                                 <td> $haritt</td>
                             </tr>
@@ -197,10 +205,10 @@ try {
                         <table role='presentation' style='border-collapse:collapse;border:0;border-spacing:0;'>
                           <tr>
                             <td style='padding:0 0 0 10px;width:38px;'>
-                             <img src='https://www.telkom.co.id/data/image_upload/page/1594108255409_compress_logo%20telkom%20indonesia.png' alt='telkom' width='100' style='height:auto;display:block;border:0;' />
+                             <img src='cid:telkom' alt='telkom' width='100' style='height:auto;display:block;border:0;' />
                             </td>
                             <td style='padding:0 0 0 10px;width:38px;'>
-                              <img src='https://1.bp.blogspot.com/-_Mg-3HifAas/X0JjnJRTgII/AAAAAAAAHD0/CwkFvAh9KGUYhpQMr71v0idEYMRilR6ywCLcBGAsYHQ/s1000/logo-bumn-terbaru.png' alt='bumn' width='100' style='height:auto;display:block;border:0;' />
+                              <img src='cid:bumn' alt='bumn' width='100' style='height:auto;display:block;border:0;' />
                             </td>
                           </tr>
                         </table>
